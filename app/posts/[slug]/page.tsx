@@ -3,15 +3,15 @@ import Image from 'next/image'
 
 import { formatDate } from '@/lib/utils'
 import MDXContent from '@/components/MdxContent'
-import { getPosts, getPostBySlug } from '@/lib/posts'
 import { ArrowLeftIcon } from '@radix-ui/react-icons'
 import { notFound } from 'next/navigation'
+import { getPostBySlug, getPosts } from '@/lib/postSupabse'
+import BackButton from '@/components/BackButton'
 // import NewsletterForm from '@/components/newsletter-form'
 
 export async function generateStaticParams() {
   const posts = await getPosts()
   const slugs = posts.map(post => ({ slug: post.slug }))
-
   return slugs
 }
 
@@ -22,13 +22,12 @@ export default async function Post({ params }: { params: { slug: string } }) {
   if (!post) {
     notFound()
   }
-
-  const { metadata, content } = post
-  const { title, image, author, publishedAt } = metadata
+  const { title, image, author, created_at, content } = post
 
   return (
     <section className='pb-24 pt-32'>
       <div className='container max-w-3xl'>
+        <BackButton link='/posts' text='Back to posts' />
         <Link
           href='/posts'
           className='mb-8 inline-flex items-center gap-2 text-sm font-light text-muted-foreground transition-colors hover:text-foreground'
@@ -51,7 +50,7 @@ export default async function Post({ params }: { params: { slug: string } }) {
         <header>
           <h1 className='title'>{title}</h1>
           <p className='mt-3 text-xs text-muted-foreground'>
-            {author} / {formatDate(publishedAt ?? '')}
+            {author} / {formatDate(created_at ?? '')}
           </p>
         </header>
 

@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { getPosts } from '@/lib/posts'
-import Posts from '@/components/Posts'
+import Posts from '@/components/posts/Posts'
 
 export default async function RecentPosts() {
   const posts = await getPosts(4)

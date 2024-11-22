@@ -28,32 +28,21 @@ import {
 
 import { formatDate } from '@/lib/utils';
 import { EditIcon, DeleteIcon } from 'lucide-react'; // Import Lucid React icons
-import { Button } from "./ui/button";
-import Image from "next/image";
+import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { CategoryMetadata } from "@/types/types";
 
-interface BaseData {
-  id: number;
-  title: string;
-  content: string;
-  summary: string;
-  image: string;
-  slug: string;
-  author: string;
-  created_at: string;
+interface CategoryTableProps {
+  columns: ColumnDef<CategoryMetadata, any>[];
+  data: CategoryMetadata[];
+  onDelete: (data: CategoryMetadata) => Promise<void>;
 }
 
-interface DataTableProps<TData extends BaseData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
-  data: TData[];
-  onDelete: (data: TData) => Promise<void>;
-}
-
-export function DataTable<TData extends BaseData, TValue>({
+export function CategoryTable({
   columns,
   data,
   onDelete,
-}: DataTableProps<TData, TValue>) {
+}: CategoryTableProps) {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
   const table = useReactTable({
@@ -62,7 +51,7 @@ export function DataTable<TData extends BaseData, TValue>({
     getCoreRowModel: getCoreRowModel(),
   });
 
-  const handleDelete = async (data: TData) => {
+  const handleDelete = async (data: CategoryMetadata) => {
       await onDelete(data);
       setIsDeleteDialogOpen(false);
   };
@@ -100,7 +89,7 @@ export function DataTable<TData extends BaseData, TValue>({
                       : cell.column.id === 'actions'
                       ? (
                         <div className="flex space-x-2 justify-end">
-                         <Link href={`/admin/posts/edit/${row.original.id}`}>
+                         <Link href={`/admin/categories/edit/${row.original.id}`}>
                           <Button className="bg-blue-500 hover:bg-blue-700 text-white">
                             <EditIcon />
                           </Button>
@@ -130,14 +119,6 @@ export function DataTable<TData extends BaseData, TValue>({
                           </Dialog>
                         </div>
                       )
-                      : cell.column.id === 'image'?
-                      <Image 
-                        src={cell.getValue() as string} 
-                        alt="item image" 
-                        className="h-10 w-10 object-cover rounded-full"
-                        width={40}
-                        height={40}
-                      />
                       : flexRender(cell.column.columnDef.cell, cell.getContext())
                     }
                   </TableCell>

@@ -26,6 +26,17 @@ export const postSchema = z.object({
   slug: z.string().min(1, "Slug is required"),
   summary: z.string().min(1, "Summary is required"),
   image: z.string().url("Invalid image URL"),
-  author: z.string().min(1, "Author is required"),
   content: z.string().min(1, "Content is required"),
+  category_id: z.number().min(1, "Category is required"),
+  tags: z.array(z.string()).min(1, "At least one tag is required"),
+});
+
+export const categorySchema = z.object({
+  name: z.string().min(1, "Name is required"),
+  description: z.string().optional(),
+});
+
+export const tagSchema = z.object({
+  name: z.string().min(1, "Name is required"),
+  description: z.string().optional(),
 });

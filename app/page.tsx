@@ -1,7 +1,7 @@
 import Intro from '@/components/Intro'
 import NewsletterForm from '@/components/NewsLetterForm'
-import RecentPosts from '@/components/RecentPost'
-import RecentProjects from '@/components/RecentProjects'
+import RecentPosts from '@/components/posts/RecentPost'
+import RecentProjects from '@/components/projects/RecentProjects'
 import React from 'react'
 
 export default function Home() {

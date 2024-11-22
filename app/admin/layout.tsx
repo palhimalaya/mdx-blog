@@ -10,7 +10,9 @@ import {
   Settings,
   ShoppingCart,
   Users2,
-  FolderOpenDot
+  FolderOpenDot,
+  FolderOpen,
+  LayoutGrid
 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -39,7 +41,7 @@ export default function AdminLayout({
         <Tooltip>
           <TooltipTrigger asChild>
             <Link
-              href="#"
+              href="/admin/dashboard"
               className="flex h-9 w-9 items-center justify-center rounded-lg bg-accent text-accent-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
             >
               <Home className="h-5 w-5" />
@@ -51,7 +53,7 @@ export default function AdminLayout({
         <Tooltip>
           <TooltipTrigger asChild>
             <Link
-              href="#"
+              href="/admin/posts"
               className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
             >
               <Rss className="h-5 w-5" />
@@ -63,7 +65,7 @@ export default function AdminLayout({
         <Tooltip>
           <TooltipTrigger asChild>
             <Link
-              href="#"
+              href="/admin/projects"
               className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
             >
               <FolderOpenDot className="h-5 w-5" />
@@ -72,10 +74,24 @@ export default function AdminLayout({
           </TooltipTrigger>
           <TooltipContent side="right">Projects</TooltipContent>
         </Tooltip>
+        {/* for categories */}
         <Tooltip>
           <TooltipTrigger asChild>
             <Link
-              href="#"
+            href="/admin/categories"
+            className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground
+            transition-colors hover:text-foreground md:h-8 md:w-8"
+            >
+              <LayoutGrid className="h-5 w-5" />
+              <span className="sr-only">Categories</span>
+            </Link>
+          </TooltipTrigger>
+          <TooltipContent side="right">Categories</TooltipContent>
+        </Tooltip>
+        {/* <Tooltip>
+          <TooltipTrigger asChild>
+            <Link
+              href="/admin/users"
               className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
             >
               <Users2 className="h-5 w-5" />
@@ -83,7 +99,7 @@ export default function AdminLayout({
             </Link>
           </TooltipTrigger>
           <TooltipContent side="right">Users</TooltipContent>
-        </Tooltip>
+        </Tooltip> */}
         {/* <Tooltip>
           <TooltipTrigger asChild>
             <Link
@@ -112,25 +128,32 @@ export default function AdminLayout({
           <SheetContent side="left" className="sm:max-w-xs">
             <nav className="grid gap-6 text-lg font-medium">
               <Link
-                href="#"
+                href="/admin/dashboard"
                 className="flex items-center gap-4 px-2.5 text-foreground"
               >
                 <Home className="h-5 w-5" />
                 Dashboard
               </Link>
               <Link
-                href="#"
+                href="/admin/posts"
                 className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
               >
                 <Rss className="h-5 w-5" />
                 Posts
               </Link>
               <Link
-                href="#"
+                href="/admin/projects"
                 className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
               >
                 <FolderOpenDot className="h-5 w-5" />
                 Projects
+              </Link>
+              <Link
+                href="/admin/categories"
+                className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+              >
+                <LayoutGrid className="h-5 w-5" />
+                Categories
               </Link>
               {/* <Link
                 href="#"

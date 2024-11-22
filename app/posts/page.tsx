@@ -1,7 +1,9 @@
-import PostsWithSearch from '@/components/PostsWithSearch'
-import { getPosts } from '@/lib/posts'
+import PostsWithSearch from '@/components/posts/PostsWithSearch'
+import { getPosts } from '@/lib/postSupabse'
+import { revalidatePath } from 'next/cache'
 
 export default async function PostsPage() {
+  revalidatePath('/posts')
   const posts = await getPosts()
 
   return (

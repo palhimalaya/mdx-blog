@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { PostMetadata } from '@/lib/posts'
 
-import Posts from '@/components/Posts'
+import Posts from '@/components/posts/Posts'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Cross2Icon } from '@radix-ui/react-icons'
