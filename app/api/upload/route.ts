@@ -16,9 +16,9 @@ export async function POST(req: NextRequest) {
       const textContent = pdfData.text.trim();
       if (!textContent) {
         console.warn("No text extracted from PDF.");
-        return null;
-    }
-    responseText = await analyzeQuestionPaper(textContent);
+        return new NextResponse('No text extracted from PDF.', { status: 400 });
+      }
+      responseText = await analyzeQuestionPaper(textContent);
     } else {
       console.log('Uploaded file is not a valid file.');
       return new NextResponse('Uploaded file is not a valid file.', { status: 400 });
@@ -30,4 +30,7 @@ export async function POST(req: NextRequest) {
   }
   const response = new NextResponse(responseText);
   return response;
+}
+export async function GET() {
+  return new NextResponse('GET request is not supported.', { status: 400 });
 }

@@ -9,11 +9,11 @@ interface PostEditPageProps {
 
 const PostEditPage = async ({ params }: PostEditPageProps) => {
   const { id } = params;
-  const post = await getPostById(id)
+  const post = await getPostById(Number(id))
   return (
     <div>
       <h1>Edit Post</h1>
-      <PostForm post={post}/>
+      <PostForm post={post} categories={[]} tags={[]}/>
     </div>
   );
 }

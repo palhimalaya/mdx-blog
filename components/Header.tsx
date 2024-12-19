@@ -22,8 +22,11 @@ export default function Header() {
             <Link href='/projects'>Projects</Link>
           </li>
           <li className='transition-colors hover:text-foreground'>
-            <Link href='/contact'>Contact</Link>
+            <Link href='/old-questions'>Generate Old Questions</Link>
           </li>
+          {/* <li className='transition-colors hover:text-foreground'>
+            <Link href='/contact'>Contact</Link>
+          </li> */}
           {checkRole('admin') ? (
             <li className='transition-colors hover:text-foreground'>
               <Link href='/admin/dashboard'>Dashboard</Link>
