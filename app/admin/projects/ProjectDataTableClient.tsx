@@ -26,7 +26,7 @@ export default function ProjectDataTableClient({ columns, data }: DataTableClien
 
   return (
     <div>
-      <Link href="/admin/posts/create" className='mb-5 flex justify-end'>
+      <Link href="/admin/projects/create" className='mb-5 flex justify-end'>
         <Button>
             Create Project
         </Button>

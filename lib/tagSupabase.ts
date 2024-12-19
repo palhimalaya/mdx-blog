@@ -25,7 +25,7 @@ export const createTag = async (tag: TagMetadata) => {
   return data;
 }
 
-export async function handleTags(postId: number, tags: string[]) {
+export async function handlePostTags(postId: number, tags: string[]) {
   const existingTags = await getTags();
   const existingTagNames = existingTags.map(tag => tag.name);
   const newTagNames = tags.filter(tag => !existingTagNames.includes(tag));
@@ -58,6 +58,41 @@ export async function handleTags(postId: number, tags: string[]) {
     }
   }
 
+  revalidateTag('tags');
+  return newAssociations;
+}
+
+export async function handleProjectTags(projectId: number, tags: string[]){
+  const existingTags = await getTags();
+  const existingTagNames = existingTags.map(tag => tag.name);
+  const newTagNames = tags.filter(tag => !existingTagNames.includes(tag));
+  const newTags = await Promise.all(newTagNames.map(name => createTag({ name })));
+
+  const validTags = [...existingTags, ...newTags].filter(tag => tag !== null && tag.id);
+  const tagIds = validTags.map(tag => tag.id);
+
+  const { data: existingAssociations, error: fetchError } = await supabaseServer
+  .from('project_tags')
+  .select('tag_id')
+  .eq('project_id', projectId);
+
+  if (fetchError) {
+    console.error('Error fetching existing associations:', fetchError);
+    throw new Error('Failed to fetch existing post-tag associations');
+  }
+
+  const existingTagIds = existingAssociations.map(assoc => assoc.tag_id);
+  const newAssociations = tagIds
+  .filter(tag_id => !existingTagIds.includes(tag_id))
+  .map(tag_id => ({ project_id: projectId, tag_id }));
+
+  if (newAssociations.length > 0) {
+    const { data, error } = await supabaseServer.from('project_tags').insert(newAssociations);
+    if (error) {
+      console.error('Error creating project-tag associations:', error);
+      throw new Error('Failed to create project-tag associations');
+    }
+  }
   revalidateTag('tags');
   return newAssociations;
 }

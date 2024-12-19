@@ -3,7 +3,7 @@
 import { supabaseServer } from "@/lib/supabase";
 import { PostMetaData } from "@/types/posts";
 import { revalidateTag } from "next/cache";
-import { handleTags } from "./tagSupabase";
+import { handlePostTags } from "./tagSupabase";
 
 export const getPosts = async () => {
   const { data, error } = await supabaseServer.from('posts').select(
@@ -64,7 +64,7 @@ export async function createPost(post: PostMetaData) {
 
   if (data && data[0]) {
     if (post.tags) {
-      await handleTags(data[0].id, post.tags.map(tag => tag.name));
+      await handlePostTags(data[0].id, post.tags.map(tag => tag.name));
     }
   } else {
     throw new Error('Failed to create post: data is null');
@@ -84,7 +84,7 @@ export async function updatePost(post: PostMetaData) {
 
   if (data && data[0]) {
     if (post.tags) {
-      await handleTags(data[0].id, post.tags.map(tag => tag.name));
+      await handlePostTags(data[0].id, post.tags.map(tag => tag.name));
     }
   } else {
     throw new Error('Failed to update post: data is null');

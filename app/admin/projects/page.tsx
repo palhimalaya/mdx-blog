@@ -3,13 +3,13 @@ import React from 'react';
 import { ColumnDef } from '@tanstack/react-table';
 import { revalidatePath } from 'next/cache';
 import { getProjects } from '@/lib/projectSupabase';
-import { Post } from '@/types/posts';
 import ProjectDataTableClient from './ProjectDataTableClient';
+import { BaseData } from '@/types/types';
 
 export default async function Page() {
   revalidatePath('/admin/projects');
-  const posts = await getProjects();
-  const columns: ColumnDef<Post>[] = [
+  const projects = await getProjects();
+  const columns: ColumnDef<BaseData>[] = [
     {
       accessorKey: 'image',
       header: 'Image',
@@ -34,7 +34,7 @@ export default async function Page() {
 
   return (
     <div className='w-full'>
-      <ProjectDataTableClient columns={columns} data={posts} />
+      <ProjectDataTableClient columns={columns} data={projects} />
     </div>
   );
 }

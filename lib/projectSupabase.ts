@@ -1,17 +1,9 @@
 "use server";
 
 import { supabaseServer } from "@/lib/supabase";
+import { ProjectMetaData } from "@/types/projects";
 import { revalidateTag } from "next/cache";
-
-type ProjectMetadata = {
-  id?: number;
-  title?: string;
-  summary?: string;
-  image?: string;
-  author?: string;
-  publishedAt?: string;
-  slug: string;
-};
+import { handleProjectTags } from "./tagSupabase";
 
 export const getProjects = async () => {
   const { data, error } = await supabaseServer.from('projects').select('*');
@@ -31,21 +23,39 @@ export async function getProjectBySlug(slug: string) {
   return data[0];
 }
 
-export async function createProject(project: ProjectMetadata) {
-  const { data, error } = await supabaseServer.from('projects').insert([project]);
+export async function createProject(project: ProjectMetaData) {
+  const { tags, ...projectWithoutTags } = project;
+  const { data, error } = await supabaseServer.from('projects').insert([projectWithoutTags]).select();
   if (error) {
     console.error('Error creating project:', error);
     throw new Error('Failed to create project');
   }
-  revalidateTag('projects');
+  
+  if (data && data[0]) {
+    if (project.tags) {
+      await handleProjectTags(data[0].id, project.tags.map(tag => tag.name));
+    }
+  } else {
+    throw new Error('Failed to create project: data is null');
+  }
+  revalidateTag('posts');
   return data;
 }
 
-export async function updateProject(project: ProjectMetadata) {
-  const { data, error } = await supabaseServer.from('projects').update(project).match({ id: project.id });
+export async function updateProject(project: ProjectMetaData) {
+  const { tags, ...projectWithoutTags } = project;
+  const { data, error } = await supabaseServer.from('projects').update(projectWithoutTags).match({ id: project.id }).select();
   if (error) {
     console.error('Error updating project:', error);
     throw new Error('Failed to update project');
+  }
+
+  if (data && data[0]) {
+    if (project.tags) {
+      await handleProjectTags(data[0].id, project.tags.map(tag => tag.name));
+    }
+  } else {
+    throw new Error('Failed to create project: data is null');
   }
   revalidateTag('projects');
   return data;
