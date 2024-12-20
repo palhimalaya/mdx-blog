@@ -5,10 +5,11 @@ import { FilePond, registerPlugin } from 'react-filepond';
 import 'filepond/dist/filepond.min.css';
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
 import FilePondPluginFileEncode from 'filepond-plugin-file-encode';
+import FilePondPluginFileValidateSize from 'filepond-plugin-file-validate-size';
 import { MDXRemoteSerializeResult } from 'next-mdx-remote';
 import ClientMdx from '@/components/ClientMdx';
 
-registerPlugin(FilePondPluginFileValidateType, FilePondPluginFileEncode);
+registerPlugin(FilePondPluginFileValidateType, FilePondPluginFileEncode, FilePondPluginFileValidateSize);
 
 export default function FileUpload() {
   const [file, setFile] = useState<File | null>(null);
@@ -67,6 +68,7 @@ export default function FileUpload() {
         <FilePond
           allowMultiple={false}
           acceptedFileTypes={['application/pdf']}
+          maxFileSize="4MB"
           onupdatefiles={(fileItems) => {
             setFile(fileItems.length > 0 ? (fileItems[0].file as File) : null);
             setError(null);

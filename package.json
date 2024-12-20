@@ -27,6 +27,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "filepond-plugin-file-encode": "^2.1.14",
+    "filepond-plugin-file-validate-size": "^2.2.8",
     "filepond-plugin-file-validate-type": "^1.2.9",
     "fs": "0.0.1-security",
     "gray-matter": "^4.0.3",
