@@ -19,7 +19,7 @@ export async function analyzeQuestionPaper(textContent: string) {
 
     1. Identify the key topics covered in the questions.
     2. List the most frequently asked questions or question types under each topic, indicating their probability of appearing in future exams (high, medium, or low). Focus on specific question types or concepts rather than verbatim questions if they are rephrased across papers.
-    3. Analyze the question papers by years and determine the most probable questions that may appear in the current year.
+    3. Analyze the question papers by years using decision tree to find the question which may appear in this year.
 
     Text:
     \`\`\`

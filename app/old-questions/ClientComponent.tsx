@@ -6,7 +6,6 @@ import { SemesterMetaData } from '@/types/semesters';
 import { SubjectMetaData } from '@/types/subjects';
 import { getSemesters, getSubjects, getQuestionsBySubjectId } from '@/lib/oldQuestionSupabase';
 import { QuestionMetaData } from '@/types/questions';
-import ClientMdx from '@/components/ClientMdx';
 import {
   Select,
   SelectContent,
@@ -15,6 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import ShowMdxContent from '@/components/old-questions/ShowMdxContent';
 
 export default function ClientComponent({ faculties }: { faculties: FacultyMetaData[] }) {
   const [result, setResult] = useState<string | null>(null);
@@ -58,6 +58,7 @@ export default function ClientComponent({ faculties }: { faculties: FacultyMetaD
     if (selectedSubject) {
       const fetchQuestions = async () => {
         const data: QuestionMetaData[] = await getQuestionsBySubjectId(selectedSubject);
+        console.log('Questions:', data);
         setResult(data[0].content);
       }
       fetchQuestions();
@@ -118,7 +119,7 @@ export default function ClientComponent({ faculties }: { faculties: FacultyMetaD
       <div className="container max-w-3xl">
         {result ? (
           <main className="prose dark:prose-invert">
-            <ClientMdx {...JSON.parse(result)} />
+            <ShowMdxContent content={result} />
           </main>
         ) : (
           <p>

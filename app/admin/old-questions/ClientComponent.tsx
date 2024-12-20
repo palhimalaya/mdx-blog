@@ -6,8 +6,6 @@ import 'filepond/dist/filepond.min.css';
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
 import FilePondPluginFileEncode from 'filepond-plugin-file-encode';
 import FilePondPluginFileValidateSize from 'filepond-plugin-file-validate-size';
-import { MDXRemoteSerializeResult } from 'next-mdx-remote';
-import ClientMdx from '@/components/ClientMdx';
 import CreatableSelect from 'react-select/creatable';
 import { FacultyMetaData } from '@/types/faculties';
 import { SemesterMetaData } from '@/types/semesters';
@@ -16,6 +14,7 @@ import { OldQuestionFormMetadata } from '@/types/types';
 import { getSemesters, getSubjects, getQuestionsBySubjectId, createOrUpdateOldQuestion } from '@/lib/oldQuestionSupabase';
 import { QuestionMetaData } from '@/types/questions';
 import { toast } from 'sonner';
+import ShowMdxContent from '@/components/old-questions/ShowMdxContent';
 
 registerPlugin(FilePondPluginFileValidateType, FilePondPluginFileEncode, FilePondPluginFileValidateSize);
 
@@ -33,7 +32,6 @@ export default function ClientComponent({ faculties }: { faculties: FacultyMetaD
 
   useEffect(() => {
     if (selectedFaculty && selectedFaculty.value && !selectedFaculty.__isNew__) {
-      console.log('Fetching semesters for faculty:', selectedFaculty);
       const fetchSemesters = async () => {
         const data: SemesterMetaData[] = await getSemesters(selectedFaculty.value);
         setSemesters(data.map(semester => ({ value: semester.id!, label: semester.name })));
@@ -64,7 +62,7 @@ export default function ClientComponent({ faculties }: { faculties: FacultyMetaD
     if (selectedSubject && selectedSubject.value && !selectedSubject.__isNew__) {
       const fetchQuestions = async () => {
         const data: QuestionMetaData[] = await getQuestionsBySubjectId(selectedSubject.value);
-        setResult(data[0].content);
+        setResult(data[0]?.content || null);
       }
       fetchQuestions();
     } else {
@@ -94,9 +92,7 @@ export default function ClientComponent({ faculties }: { faculties: FacultyMetaD
         }
       })
       .then(async (text) => {
-        const { serialize } = await import('next-mdx-remote/serialize');
-        const mdxSource = await serialize(text);
-        setResult(JSON.stringify(mdxSource));
+        setResult(text);
         setLoading(false);
       })
       .catch((error) => {
@@ -195,9 +191,7 @@ export default function ClientComponent({ faculties }: { faculties: FacultyMetaD
         {loading ? (
           <p className='container'>Analyzing...</p>
         ) : result ? (
-          <main className="prose dark:prose-invert">
-            <ClientMdx {...JSON.parse(result)} />
-          </main>
+          <ShowMdxContent content={result} />
         ) : (
           <p>No analysis result yet.</p>
         )}
