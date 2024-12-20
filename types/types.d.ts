@@ -1,3 +1,5 @@
+import { FacultyMetaData } from "./faculties";
+
 export interface BaseData {
   id: number;
   title: string;
@@ -19,3 +21,11 @@ export type TagMetadata = {
   id?: number;
   name: string;
 };
+
+
+export interface OldQuestionFormMetadata {
+  faculty: string;
+  semester: string;
+  subject: string;
+  question: string;
+}

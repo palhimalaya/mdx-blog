@@ -12,7 +12,8 @@ import {
   Users2,
   FolderOpenDot,
   FolderOpen,
-  LayoutGrid
+  LayoutGrid,
+  Book
 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -88,6 +89,20 @@ export default function AdminLayout({
           </TooltipTrigger>
           <TooltipContent side="right">Categories</TooltipContent>
         </Tooltip>
+
+        {/* for old questions */}
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Link
+              href="/admin/old-questions"
+              className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
+            >
+              <Book className="h-5 w-5" />
+              <span className="sr-only">Old Questions</span>
+            </Link>
+          </TooltipTrigger>
+          <TooltipContent side="right">Old Questions</TooltipContent>
+        </Tooltip>
         {/* <Tooltip>
           <TooltipTrigger asChild>
             <Link
@@ -154,6 +169,14 @@ export default function AdminLayout({
               >
                 <LayoutGrid className="h-5 w-5" />
                 Categories
+              </Link>
+
+              <Link
+                href="/admin/old-questions"
+                className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+              >
+                <Book className="h-5 w-5" />
+                Old Questions
               </Link>
               {/* <Link
                 href="#"
