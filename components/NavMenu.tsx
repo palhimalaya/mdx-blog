@@ -6,10 +6,10 @@ import {
   Sheet,
   SheetClose,
   SheetContent,
-  SheetDescription,
-  SheetTitle,
   SheetTrigger,
-} from "@/components/ui/sheet"
+  SheetTitle,
+  SheetDescription,
+} from "@/components/ui/sheet";
 
 interface NavMenuProps {
   isAdmin: boolean;
@@ -47,7 +47,7 @@ export default function NavMenu({ isAdmin }: NavMenuProps) {
               </svg>
             </button>
           </SheetTrigger>
-          <SheetContent side='left' className='bg-background'>
+          <SheetContent side='left' className='bg-background h-full'>
             <SheetTitle hidden className='p-4 text-xl font-bold'>Menu</SheetTitle>
             <SheetDescription hidden className='p-4 text-sm font-light'> Navigation Menu </SheetDescription>
             <div className='flex flex-col items-start gap-6 p-4'>
@@ -80,22 +80,27 @@ export default function NavMenu({ isAdmin }: NavMenuProps) {
         </Link>
       </div>
 
-      <ul className='hidden md:flex flex-row items-center gap-6 text-sm font-light text-muted-foreground sm:gap-10'>
-        <li className='transition-colors hover:text-foreground'>
-          <Link href='/posts'>Posts</Link>
-        </li>
-        <li className='transition-colors hover:text-foreground'>
-          <Link href='/projects'>Projects</Link>
-        </li>
-        <li className='transition-colors hover:text-foreground'>
-          <Link href='/old-questions'>Old Questions</Link>
-        </li>
-        {isAdmin && (
+      <div className='hidden md:flex items-center justify-between w-full'>
+        <Link href='/' className='font-serif text-2xl font-bold'>
+          palhimalaya
+        </Link>
+        <ul className='flex flex-row items-center gap-6 text-sm font-light text-muted-foreground sm:gap-10'>
           <li className='transition-colors hover:text-foreground'>
-            <Link href='/admin/dashboard'>Dashboard</Link>
+            <Link href='/posts'>Posts</Link>
           </li>
-        )}
-      </ul>
+          <li className='transition-colors hover:text-foreground'>
+            <Link href='/projects'>Projects</Link>
+          </li>
+          <li className='transition-colors hover:text-foreground'>
+            <Link href='/old-questions'>Old Questions</Link>
+          </li>
+          {isAdmin && (
+            <li className='transition-colors hover:text-foreground'>
+              <Link href='/admin/dashboard'>Dashboard</Link>
+            </li>
+          )}
+        </ul>
+      </div>
     </>
   );
 }
